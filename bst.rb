@@ -22,6 +22,7 @@ class Tree
   end
 
   def build_tree(array)
+    # Need to sort and remove duplicates
     array = array.uniq.sort
     return nil if array.empty?
 
@@ -41,21 +42,27 @@ class Tree
   # Write an #insert and #delete method which accepts a value to insert/delete.
   # You’ll have to deal with several cases for delete, such as when a node has children or not.
   def insert(value, node = @root)
+    # Error handling, integers only
     if !(value.is_a? Integer)
       return nil
     end
+
     if node.nil?
       return Node.new(value)
     elsif value < node.data
       node.left = insert(value, node.left)
     elsif value > node.data
       node.right = insert(value, node.right)
+
     end
 
     node
   end
 
   def delete(value, node = @root)
+    if @root.nil?
+      return nil
+    end
     return nil if node.nil?
 
     if value < node.data
@@ -89,17 +96,17 @@ class Tree
 
   # Write a #find method which accepts a value and returns the node with the given value.
   def find(value, node = @root)
-    # Base Cases: root is null or key is present at root
+    # Base Cases: root is null or value is present at root
     if node.nil? || node.data == value
       return node
     end
 
-    # Key is greater than root's key
+    # Value is greater than root's value
     if node.data < value
       return find(value, node.right)
     end
 
-    # Key is smaller than root's key
+    # Value is smaller than root's value
     if node.data > value
       return find(value, node.left)
     end
